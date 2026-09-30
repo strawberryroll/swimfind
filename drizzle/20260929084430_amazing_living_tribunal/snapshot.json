@@ -1,0 +1,366 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "7b918b2d-a8f8-4ccd-bc09-db497b8aa337",
+  "prevIds": [
+    "6db00443-db62-4990-ae47-38211e6b3d9e"
+  ],
+  "ddl": [
+    {
+      "values": [
+        "MON",
+        "TUE",
+        "WED",
+        "THU",
+        "FRI",
+        "SAT",
+        "SUN"
+      ],
+      "name": "day_of_week",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "OPERATED",
+        "NOT_OPERATED",
+        "UNKNOWN"
+      ],
+      "name": "free_swimming_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "ACTIVE",
+        "INACTIVE"
+      ],
+      "name": "pool_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "pool_operating_hours",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "pools",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "serial",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "pool_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "day_of_week",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "day_of_week",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "time",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "open_time",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "time",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "close_time",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "name": "is_closed",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "verified_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "type": "serial",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "varchar(100)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "address",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "double precision",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "latitude",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "double precision",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "longitude",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "varchar(30)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "phone",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "homepage_url",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "pool_status",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'ACTIVE'",
+      "generated": null,
+      "identity": null,
+      "name": "status",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "free_swimming_status",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'UNKNOWN'",
+      "generated": null,
+      "identity": null,
+      "name": "free_swimming_status",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "free_swimming_verified_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "free_swimming_note",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "info_verified_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "pools"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "pool_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "pools",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "pool_operating_hours_pool_id_pools_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "pool_operating_hours_pkey",
+      "schema": "public",
+      "table": "pool_operating_hours",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "pools_pkey",
+      "schema": "public",
+      "table": "pools",
+      "entityType": "pks"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "pool_id",
+        "day_of_week"
+      ],
+      "nullsNotDistinct": false,
+      "name": "pool_operating_hours_pool_id_day_of_week_unique",
+      "entityType": "uniques",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "value": "(\n        (\"is_closed\" = true AND \"open_time\" IS NULL AND \"close_time\" IS NULL)\n        OR\n        (\"is_closed\" = false AND \"open_time\" IS NOT NULL AND \"close_time\" IS NOT NULL)\n      )",
+      "name": "pool_operating_hours_closed_time_check",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    },
+    {
+      "value": "\"open_time\" < \"close_time\"",
+      "name": "pool_operating_hours_time_order_check",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "pool_operating_hours"
+    }
+  ],
+  "renames": []
+}
