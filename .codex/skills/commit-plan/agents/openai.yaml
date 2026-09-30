@@ -1,0 +1,4 @@
+interface:
+  display_name: "커밋 계획"
+  short_description: "SwimFind 변경사항을 커밋 단위로 제안합니다"
+  default_prompt: "Use $commit-plan to propose logical commits for the current SwimFind changes."
