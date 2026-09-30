@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "free_swimming_schedules_active_unique" ON "free_swimming_schedules" ("pool_id","day_of_week",COALESCE("start_date", '-infinity'::date),COALESCE("end_date", 'infinity'::date)) WHERE "status" = 'ACTIVE';
