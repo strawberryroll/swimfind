@@ -146,7 +146,8 @@ async function seedPools() {
             longitude: 126.6749132,
             status: "ACTIVE",
             freeSwimmingStatus: "OPERATED",
-            freeSwimmingNote: "강습요일 외 전 시간대 자유수영",
+            freeSwimmingNote:
+              "월~토 자유수영 운영. 이용 시간은 일반 운영시간 전체.",
           })
           .where(eq(pools.id, poolId));
       } else {
@@ -159,7 +160,8 @@ async function seedPools() {
             longitude: 126.6749132,
             status: "ACTIVE",
             freeSwimmingStatus: "OPERATED",
-            freeSwimmingNote: "강습요일 외 전 시간대 자유수영",
+            freeSwimmingNote:
+              "월~토 자유수영 운영. 이용 시간은 일반 운영시간 전체.",
           })
           .returning({ id: pools.id });
 
@@ -207,10 +209,57 @@ async function seedPools() {
         },
         {
           poolId,
+          dayOfWeek: "SAT",
+          openTime: "06:00:00",
+          closeTime: "18:00:00",
+        },
+        {
+          poolId,
           dayOfWeek: "SUN",
           isClosed: true,
         },
       ]);
+
+      const oldSchedules = await tx
+        .select({ id: freeSwimmingSchedules.id })
+        .from(freeSwimmingSchedules)
+        .where(eq(freeSwimmingSchedules.poolId, poolId));
+
+      const oldScheduleIds = oldSchedules.map((schedule) => schedule.id);
+
+      if (oldScheduleIds.length > 0) {
+        await tx
+          .delete(freeSwimmingSessions)
+          .where(inArray(freeSwimmingSessions.scheduleId, oldScheduleIds));
+
+        await tx
+          .delete(freeSwimmingSchedules)
+          .where(eq(freeSwimmingSchedules.poolId, poolId));
+      }
+
+      const schedules = await tx
+        .insert(freeSwimmingSchedules)
+        .values(
+          (["MON", "TUE", "WED", "THU", "FRI", "SAT"] as const).map(
+            (dayOfWeek) => ({
+              poolId,
+              dayOfWeek,
+              status: "ACTIVE" as const,
+            }),
+          ),
+        )
+        .returning({
+          id: freeSwimmingSchedules.id,
+          dayOfWeek: freeSwimmingSchedules.dayOfWeek,
+        });
+
+      await tx.insert(freeSwimmingSessions).values(
+        schedules.map((schedule) => ({
+          scheduleId: schedule.id,
+          startTime: "06:00:00",
+          endTime: schedule.dayOfWeek === "SAT" ? "18:00:00" : "21:00:00",
+        })),
+      );
 
       await tx
         .delete(freeSwimmingPrices)
