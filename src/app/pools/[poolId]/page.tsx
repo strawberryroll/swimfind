@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getPoolById } from "@/server/pool/pool.service";
+import type { TodayFreeSwimmingStatus } from "@/server/pool/pool.types";
 
 const PRICE_TYPES = [
   { value: "DAILY", label: "일일 요금" },
@@ -21,6 +22,15 @@ const DAYS_OF_WEEK = [
   { value: "SAT", label: "토요일" },
   { value: "SUN", label: "일요일" },
 ] as const;
+
+const STATUS_LABELS = {
+  AVAILABLE: "오늘 이용 가능",
+  ENDED: "오늘 자유수영 종료",
+  CLOSED: "오늘 이용 불가",
+  NO_SCHEDULE: "오늘 자유수영 일정 없음",
+  NOT_OPERATED: "자유수영 미운영",
+  UNVERIFIED: "오늘 자유수영 정보 미확인",
+} satisfies Record<TodayFreeSwimmingStatus, string>;
 
 export default async function PoolDetailPage({
   params,
@@ -50,7 +60,7 @@ export default async function PoolDetailPage({
     <main>
       <h1>{detail.pool.name}</h1>
       <p>{detail.pool.address}</p>
-      <p>오늘 자유수영 상태: {detail.todayStatus}</p>
+      <p>오늘 자유수영 상태: {STATUS_LABELS[detail.todayStatus]}</p>
 
       <section>
         <h2>자유수영 안내</h2>
@@ -93,13 +103,16 @@ export default async function PoolDetailPage({
 
         {sessionsByDay.map(({ dayOfWeek, sessions }) => (
           <div key={dayOfWeek}>
-            <h3>{dayOfWeek}</h3>
+            <h3>
+              {DAYS_OF_WEEK.find((day) => day.value === dayOfWeek)?.label}
+            </h3>
 
             {sessions.length > 0 ? (
               <ul>
                 {sessions.map((session) => (
                   <li key={session.id}>
-                    {session.startTime} ~ {session.endTime}
+                    {session.startTime.slice(0, 5)} ~{" "}
+                    {session.endTime.slice(0, 5)}
                   </li>
                 ))}
               </ul>
