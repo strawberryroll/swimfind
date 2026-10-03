@@ -43,8 +43,8 @@ function getKoreaDateTime(now: Date) {
  * 우선순위:
  * 1. 특정 날짜 휴관
  * 2. 자유수영 미운영 / 미확인
- * 3. 오늘 자유수영 일정 존재 여부
- * 4. 정기 휴관 여부
+ * 3. 정기 휴관 여부
+ * 4. 오늘 자유수영 일정 존재 여부
  * 5. 자유수영 회차 또는 운영시간 확인
  */
 export function calculateTodayFreeSwimmingStatus(
@@ -65,6 +65,14 @@ export function calculateTodayFreeSwimmingStatus(
 
   if (detail.pool.freeSwimmingStatus === "UNKNOWN") {
     return "UNVERIFIED";
+  }
+
+  const operatingHour = detail.operatingHours.find(
+    (item) => item.dayOfWeek === dayOfWeek,
+  );
+
+  if (operatingHour?.isClosed) {
+    return "CLOSED";
   }
 
   const todaySchedules = detail.schedules.filter((schedule) => {
@@ -88,15 +96,8 @@ export function calculateTodayFreeSwimmingStatus(
   });
 
   if (todaySchedules.length === 0) {
-    return "NO_SCHEDULE";
-  }
-
-  const operatingHour = detail.operatingHours.find(
-    (item) => item.dayOfWeek === dayOfWeek,
-  );
-
-  if (operatingHour?.isClosed) {
-    return "CLOSED";
+    // 일정이 없다는 사실만으로 해당 요일의 미운영이 확인된 것은 아닙니다.
+    return "UNVERIFIED";
   }
 
   const scheduleIds = todaySchedules.map((schedule) => schedule.id);
