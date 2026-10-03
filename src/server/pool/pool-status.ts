@@ -1,37 +1,4 @@
-export type TodayFreeSwimmingStatus =
-  | "AVAILABLE"
-  | "ENDED"
-  | "CLOSED"
-  | "NO_SCHEDULE"
-  | "NOT_OPERATED"
-  | "UNVERIFIED";
-
-export type PoolDetail = {
-  pool: {
-    freeSwimmingStatus: "OPERATED" | "NOT_OPERATED" | "UNKNOWN";
-  };
-  operatingHours: {
-    dayOfWeek: string;
-    openTime: string | null;
-    closeTime: string | null;
-    isClosed: boolean;
-  }[];
-  schedules: {
-    id: number;
-    dayOfWeek: string;
-    startDate: string | null;
-    endDate: string | null;
-    status: "ACTIVE" | "INACTIVE";
-  }[];
-  sessions: {
-    scheduleId: number;
-    startTime: string;
-    endTime: string;
-  }[];
-  closures: {
-    closureDate: string;
-  }[];
-};
+import type { PoolStatusInput, TodayFreeSwimmingStatus } from "./pool.types";
 
 const WEEKDAY_MAP = {
   일: "SUN",
@@ -81,7 +48,7 @@ function getKoreaDateTime(now: Date) {
  * 5. 자유수영 회차 또는 운영시간 확인
  */
 export function calculateTodayFreeSwimmingStatus(
-  detail: PoolDetail,
+  detail: PoolStatusInput,
   now = new Date(),
 ): TodayFreeSwimmingStatus {
   const { date, time, dayOfWeek } = getKoreaDateTime(now);

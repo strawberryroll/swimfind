@@ -1,13 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  calculateTodayFreeSwimmingStatus,
-  type PoolDetail,
-} from "./pool-status";
+import type { PoolStatusInput } from "./pool.types";
+import { calculateTodayFreeSwimmingStatus } from "./pool-status";
 
 const MONDAY_MORNING = new Date("2026-09-28T07:00:00+09:00");
 
-function createDetail(): PoolDetail {
+function createDetail(): PoolStatusInput {
   return {
     pool: {
       freeSwimmingStatus: "OPERATED" as const,
