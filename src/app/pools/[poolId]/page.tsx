@@ -40,7 +40,11 @@ export default async function PoolDetailPage({
   const { poolId } = await params;
   const id = Number(poolId);
 
-  if (Number.isNaN(id)) {
+  if (
+    !/^[1-9]\d*$/.test(poolId) ||
+    !Number.isInteger(id) ||
+    id > 2_147_483_647
+  ) {
     notFound();
   }
 
