@@ -1,13 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  calculateTodayFreeSwimmingStatus,
-  type PoolDetail,
-} from "./pool-status";
+import type { PoolStatusInput } from "./pool.types";
+import { calculateTodayFreeSwimmingStatus } from "./pool-status";
 
 const MONDAY_MORNING = new Date("2026-09-28T07:00:00+09:00");
 
-function createDetail(): PoolDetail {
+function createDetail(): PoolStatusInput {
   return {
     pool: {
       freeSwimmingStatus: "OPERATED" as const,
@@ -64,13 +62,55 @@ describe("calculateTodayFreeSwimmingStatus", () => {
     expect(result).toBe("UNVERIFIED");
   });
 
-  it("오늘 적용되는 자유수영 일정이 없으면 NO_SCHEDULE을 반환한다", () => {
+  it("자유수영 일정 정보가 없으면 UNVERIFIED를 반환한다", () => {
     const detail = createDetail();
 
     detail.schedules = [];
 
     const result = calculateTodayFreeSwimmingStatus(detail, MONDAY_MORNING);
-    expect(result).toBe("NO_SCHEDULE");
+    expect(result).toBe("UNVERIFIED");
+  });
+
+  it("다른 요일의 일정만 있으면 UNVERIFIED를 반환한다", () => {
+    const detail = createDetail();
+
+    detail.schedules[0].dayOfWeek = "TUE";
+
+    const result = calculateTodayFreeSwimmingStatus(detail, MONDAY_MORNING);
+    expect(result).toBe("UNVERIFIED");
+  });
+
+  it("비활성 일정만 있으면 UNVERIFIED를 반환한다", () => {
+    const detail = createDetail();
+
+    detail.schedules[0].status = "INACTIVE";
+
+    const result = calculateTodayFreeSwimmingStatus(detail, MONDAY_MORNING);
+    expect(result).toBe("UNVERIFIED");
+  });
+
+  it.each([
+    { startDate: "2026-09-29", endDate: null },
+    { startDate: null, endDate: "2026-09-27" },
+  ])("오늘이 일정 적용 기간 밖이면 UNVERIFIED를 반환한다: %o", (period) => {
+    const detail = createDetail();
+
+    Object.assign(detail.schedules[0], period);
+
+    const result = calculateTodayFreeSwimmingStatus(detail, MONDAY_MORNING);
+    expect(result).toBe("UNVERIFIED");
+  });
+
+  it("오늘 일정이 없어도 정기 휴관이 확인되면 CLOSED를 반환한다", () => {
+    const detail = createDetail();
+
+    detail.schedules = [];
+    detail.operatingHours[0].isClosed = true;
+    detail.operatingHours[0].openTime = null;
+    detail.operatingHours[0].closeTime = null;
+
+    const result = calculateTodayFreeSwimmingStatus(detail, MONDAY_MORNING);
+    expect(result).toBe("CLOSED");
   });
 
   it("오늘 정기 휴관이면 CLOSED를 반환한다", () => {

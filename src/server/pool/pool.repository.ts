@@ -9,6 +9,7 @@ import {
   poolOperatingHours,
   pools,
 } from "@/server/db/schema";
+import type { PoolDetail } from "./pool.types";
 
 /**
  * 활성 상태인 수영장 목록을 조회합니다.
@@ -42,7 +43,7 @@ export async function getPools() {
  * - 특정 날짜 휴관/운영 예외
  * - 자유수영 요금
  */
-export async function getPoolById(poolId: number) {
+export async function getPoolById(poolId: number): Promise<PoolDetail | null> {
   const [pool] = await db
     .select()
     .from(pools)

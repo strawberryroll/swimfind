@@ -1,0 +1,4 @@
+interface:
+  display_name: "Issue·PR 전달 흐름"
+  short_description: "SwimFind Issue부터 PR 머지까지 관리합니다"
+  default_prompt: "Use $issue-pr-lifecycle to create and deliver this SwimFind feature through an issue and pull request."
