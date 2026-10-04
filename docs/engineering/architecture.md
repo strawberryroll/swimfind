@@ -388,6 +388,15 @@ src/
 
 기존 코드와 구현 상황을 먼저 확인한 뒤 변경한다.
 
+### 수영장 상세 페이지 URL
+
+현재 상세 페이지는 `src/app/pools/[poolId]/page.tsx`에서 제공하며 URL은 `/pools/{poolId}`이다.
+`poolId`에는 앞자리 0이 없는 양의 10진수 정수 문자열만 사용한다(예: `/pools/1`).
+DB의 `integer` ID 범위인 1~2,147,483,647을 벗어나거나 형식이 맞지 않으면 DB 조회 전에 404로 처리한다.
+해당 ID의 수영장이 없어도 404로 처리한다.
+
+`/pools/01`, `/pools/1.0`, `/pools/1e0`, `/pools/0x1`은 상세 페이지 URL로 허용하지 않는다.
+
 ---
 
 ## 6. Server Component vs Client Component

@@ -1022,6 +1022,9 @@ GET /pools/{poolId}
 GET /pools/{poolId}/free-swimming
 ```
 
+위 `GET` 목록은 향후 API 데이터 계약을 설명하는 경로 예시다.
+현재 구현된 상세 페이지 URL은 `/pools/{poolId}`이며, ID 형식과 404 처리는 `architecture.md`의 수영장 상세 페이지 URL 절을 따른다.
+
 ---
 
 ### Free Swimming Response
