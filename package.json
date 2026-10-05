@@ -8,6 +8,7 @@
     "start": "next start",
     "check": "biome check",
     "check:fix": "biome check --write",
+    "typecheck": "next typegen && tsc --noEmit",
     "db:generate": "pnpm exec drizzle-kit generate",
     "db:migrate": "pnpm exec drizzle-kit migrate",
     "db:seed": "tsx --env-file=.env.local src/server/db/seed/pools.ts",
