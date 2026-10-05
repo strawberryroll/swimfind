@@ -31,8 +31,8 @@ mock은 실제 저장 없이 화면과 사용자 흐름을 확인하기 위한 �
 
 ## 2. 현재 구현 상태
 
-아래 상태는 `main`의 `f679493` 커밋과 단계 1 작업 A~C의 확인 결과 기준이다.
-구현·로컬 검증·`main` 병합과 Preview·Production 배포는 구분한다. 배포 상태는 아직 확인하지 않았다.
+아래 상태는 `main`의 `91836e3` 커밋과 단계 1 작업 A~D의 확인 결과 기준이다.
+구현·로컬 검증·`main` 병합과 Preview·Production 배포는 구분한다. 사용자는 개발 DB를 연결한 Vercel Preview만 진행하고, Production은 운영 DB 준비 전까지 보류하기로 했다. 첫 main Production 빌드는 환경변수 범위 불일치로 실패했지만, 같은 `main` 커밋을 수동으로 Preview 환경에 배포해 상세 페이지 조회를 확인했다. 서비스 중인 Production 배포는 없다.
 
 | 영역 | 현재 상태 |
 |---|---|
@@ -46,12 +46,12 @@ mock은 실제 저장 없이 화면과 사용자 흐름을 확인하기 위한 �
 | 탐색 | 홈은 자리 표시 화면. 검색 결과 페이지와 검색 기능 미구현 |
 | 공용 UI·mock 화면 | 토큰은 준비됐지만 확장 공용 UI와 전체 MVP mock 화면은 미구현 |
 | 개인 기능 | 인증·관심 수영장·후기·정보 제보·마이페이지 미구현 |
-| 배포·운영 | 저장소에 GitHub Actions workflow 없음. Vercel 연결·main 보호·모니터링은 별도 확인 필요 |
-| 단계 1 진행 | A·B 완료, B의 수정은 PR #19로 `main` 병합. C의 데이터 계약·mock 시나리오는 로컬 임시 문서에 정리 완료. D·E 미착수 |
+| 배포·운영 | GitHub Actions `CI / validate`가 PR #21과 병합된 main에서 통과. 저장소를 공개로 전환하고 main에 PR·`validate` 필수 보호 및 Squash 전용 병합을 적용. 첫 main Production 빌드는 `DATABASE_URL` 미적용으로 실패. 이후 `main`의 `91836e3` 커밋을 수동 Preview로 배포해 Ready 상태와 실제 상세 조회를 확인. 서비스 중인 Production은 없음 |
+| 단계 1 진행 | A·B·C·D 완료. B의 수정은 PR #19, D의 CI는 PR #21로 `main` 병합. C의 데이터 계약·mock 시나리오는 로컬 임시 문서에 정리 완료. E의 GitHub 설정과 수동 Preview 상세 조회 확인 완료; PR별 Preview와 환경변수 범위 재확인은 남음 |
 
 ### 문서와 구현의 차이
 
-- `github-ci.md`의 현재 상태에는 Vitest와 `test` 스크립트가 미구현으로 적혀 있으나, 실제 코드에는 존재한다. `typecheck` 스크립트는 없으므로 현재는 `pnpm exec tsc --noEmit`을 사용한다.
+- CI는 `pnpm check`·`pnpm typecheck`·`pnpm test --run`·`pnpm build`를 실행한다. Vitest는 별도 설정 파일 없이 테스트를 자동 탐색한다.
 - 상세 조회 연결은 구현됐지만, 오늘 남은 시간과 입장 마감·회차 조건·정보 출처·확인일을 중심으로 한 상세 화면은 아직 완성되지 않았다.
 - 상태 계산에는 수영장 자체 비활성 상태, 입장 마감, 부분 운영 변경, 정보 최신성 판단이 아직 충분히 반영되지 않았다.
 - 현재는 회차가 없으면 일반 운영시간을 계산에 사용한다. 시간표 누락과 운영시간 전체 자유수영을 어떻게 구분할지 추가 검토가 필요하다. 동남스포피아 seed는 확인된 전체 이용 시간 범위를 회차에 저장하는 현재 방식을 유지한다.
@@ -73,7 +73,9 @@ mock은 실제 저장 없이 화면과 사용자 흐름을 확인하기 위한 �
 - [x] 현재 상세 페이지의 정상 조회·없는 ID의 404·요일/가격/운영시간 표시를 브라우저에서 최종 확인한다.
 - [x] 2절의 구현 상태와 미확인 사항을 갱신한다. 기존 schema·migration·seed를 임시 화면용으로 변경하지 않는다.
 - [x] 기존 조회 타입을 바탕으로 UI가 받을 데이터와 mock 시나리오를 정리한다. 아직 없는 후기·제보 등의 화면 타입은 해당 화면을 만들 때 최소 범위로 정의한다.
-- [ ] 초기 CI·Preview 준비 작업은 5절과 함께 진행한다.
+- [x] 초기 CI와 main 보호를 준비한다. 수동 Preview의 상세 조회도 확인했으며, PR별 Preview와 환경변수 범위 재확인은 5절에서 추적한다.
+
+로컬 UI 개발은 CI와 main 보호가 준비된 상태에서 단계 2로 진행할 수 있다. 단계 1-E는 수동 Preview 조회까지 확인했고, 남은 배포 설정 검증을 별도 항목으로 추적한다.
 
 완료 기준: 구현·검증·병합·배포 상태를 구분하고, 기존 실제 조회 흐름을 유지한 채 UI 개발을 시작할 수 있다.
 
@@ -220,8 +222,9 @@ mock은 실제 저장 없이 화면과 사용자 흐름을 확인하기 위한 �
 
 이 작업들은 마지막까지 미루지 않고 관련 기능을 구현하는 시점에 함께 진행한다.
 
-- [ ] 초기: `typecheck` 스크립트와 GitHub Actions CI를 구성한다. `pnpm install --frozen-lockfile` → Biome → 타입 검사 → `pnpm test --run` → build 순서로 검증한다.
-- [ ] PR 검증 기반: Vercel Preview를 개발 DB에 연결하고, 비밀값은 환경별로 관리한다. main 보호와 CI 필수 조건을 적용한다.
+- [x] 초기: `typecheck` 스크립트와 GitHub Actions CI를 구성한다. `pnpm install --frozen-lockfile` → Biome → 타입 검사 → `pnpm test --run` → build 순서로 검증한다.
+- [x] PR 검증 기반: main 보호와 `validate` CI 필수 조건을 적용한다.
+- [ ] Vercel Preview: `main` 커밋의 수동 Preview 배포 URL과 실제 상세 조회를 확인했다. Vercel에서 Production 빌드 건너뛰기·Preview 빌드 유지 설정을 적용했고, 작업 브랜치에 `main` 자동 배포 차단 설정을 추가했다(병합 후 적용). 새 `main` 커밋은 자동 Preview로 전환되지 않으므로 필요할 때 수동 배포한다. `DATABASE_URL`의 Preview 범위·개발 DB 대상과 PR별 자동 Preview는 재확인한다. Production 범위에는 개발 DB를 연결하지 않는다.
 - [ ] 공개 탐색 완성 시: Playwright로 홈 → 검색 → 상세 흐름과 주요 예외를 로컬 검증한다. 안정화 후 별도 CI job을 추가한다.
 - [ ] 배포 준비 시: 운영 DB와 개발 seed를 분리하고, 운영 초기 import·migration 적용·복구 절차를 확인한다.
 - [ ] 공개 배포 전: Sentry 오류 추적과 PostHog의 핵심 탐색 지표를 필요한 범위에서 연결하고, 비밀값·개인정보 수집 설정을 검토한다.
@@ -238,7 +241,7 @@ TanStack Query는 추가 조회나 optimistic update가 필요한 시점에 적�
 - migration은 schema 수정 → generate → SQL 검토 → 개발 DB migrate → 실제 DB 확인 순서로 진행한다. 적용된 migration은 수정·삭제하지 않는다.
 - 단계별 체크박스는 검증 후 갱신한다. 기능 작업으로 정책이 바뀌면 관련 기준 문서와 이 로드맵의 상태도 함께 검토한다.
 
-바로 다음 작업은 단계 1-D의 초기 CI 구성이다. 이어서 단계 1-E의 Preview·main 보호를 확인한 뒤 단계 2의 공용 UI 준비를 시작한다.
+단계 1-E의 GitHub 설정과 수동 Vercel Preview의 상세 조회는 확인했다. 단계 2의 공용 UI는 로컬 검토와 PR CI를 사용해 진행할 수 있다. PR별 Preview 배포와 환경변수 범위는 계속 확인한다.
 
 ## 7. MVP 이후 검토
 
