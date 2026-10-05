@@ -13,6 +13,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 작업 전에 해당 영역의 기준 문서를 읽는다.
 
 - MVP 범위: `docs/product/mvp.md`
+- 다음 작업·개발 우선순위: `docs/ROADMAP.md`
 - 사용자 흐름: `docs/product/user-flow.md`
 - 화면 요구사항: `docs/product/ia.md`
 - 아키텍처: `docs/engineering/architecture.md`
