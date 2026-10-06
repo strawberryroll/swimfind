@@ -243,6 +243,11 @@ ReviewForm
 특정 기능에서만 사용하는 UI와 로직은
 가능하면 해당 feature 내부에 둔다.
 
+화면용 타입은 `*.types.ts`에 둔다.
+UI 검토 단계의 mock 데이터는 해당 feature의 `mocks/`에 두고,
+실제 데이터로 교체한 뒤 제거한다.
+mock은 Repository나 Service에 두지 않는다.
+
 ---
 
 ### `components/ui`
@@ -266,6 +271,24 @@ Pool
 Review
 Favorite
 ```
+
+---
+
+### `components/layout`
+
+앱 전체에서 공유하는 화면 골격을 둔다.
+
+예:
+
+```text
+Header
+Footer
+Navigation
+PageContainer
+```
+
+앱 전역 맥락(메뉴 링크, 로그인 여부 표시)은 알 수 있다.
+수영장·후기 같은 도메인 데이터를 조회하거나 계산하지 않는다.
 
 ---
 
@@ -349,10 +372,16 @@ src/
 │  │  └─ page.tsx
 │  ├─ my/
 │  │  └─ page.tsx
+│  ├─ admin/
+│  │  └─ reports/
+│  │     ├─ page.tsx
+│  │     └─ [reportId]/
+│  │        └─ page.tsx
 │  └─ api/
 │
 ├─ components/
-│  └─ ui/
+│  ├─ ui/
+│  └─ layout/
 │
 ├─ features/
 │  ├─ pool/
@@ -382,6 +411,12 @@ src/
 │
 └─ styles/
 ```
+
+각 feature는 필요하면 화면용 타입(`*.types.ts`)과
+UI 검토용 `mocks/`를 가진다.
+
+운영자 화면은 `/admin` 아래에 둔다.
+접근 제어는 인증·권한 구현 단계에서 Server Action과 Route Handler 기준으로 정한다.
 
 실제 프로젝트가 이 구조와 조금 다르면
 문서만 보고 강제로 구조를 맞추지 않는다.

@@ -144,7 +144,7 @@ Vitest는 현재 테스트 파일을 자동 탐색하며 별도 `vitest.config.*
 PR #21과 병합 커밋의 `main` push에서 `validate`가 통과했다.
 
 Vercel GitHub App으로 SwimFind 프로젝트를 생성했다. 사용자는 개발 DB를 연결한 Preview만 먼저 배포하고, Production은 운영 DB가 준비될 때까지 보류하기로 했다. `main`의 `91836e3` 커밋을 수동으로 Preview 환경에 배포했고, Vercel에서 Ready 상태를 확인했다. 해당 Preview의 `/pools/1`·`/pools/2`·`/pools/3`은 수영장 데이터를 표시하고, 없는 정수 ID와 잘못된 ID는 404 화면을 표시한다. PR별 Preview 배포 검증은 아직 확인하지 않았다.
-가져오기 화면에서 `DATABASE_URL`을 Preview 범위로 선택했지만, 첫 `Deploy`는 main의 Production 빌드를 시작했다. 이 빌드는 Production 범위에 변수가 없어 `DATABASE_URL` 미설정 오류로 실패했다. 수동 생성한 Preview 배포는 별개이며, 서비스 중인 Production 배포는 없다. Production 범위에 개발 DB 연결을 넣지 않는다. 운영 DB·Production 배포·공개 출시는 단계 9 범위다.
+가져오기 화면에서 `DATABASE_URL`을 Preview 범위로 선택했지만, 첫 `Deploy`는 main의 Production 빌드를 시작했다. 이 빌드는 Production 범위에 변수가 없어 `DATABASE_URL` 미설정 오류로 실패했다. 수동 생성한 Preview 배포는 별개이며, 서비스 중인 Production 배포는 없다. Production 범위에 개발 DB 연결을 넣지 않는다. 운영 DB·Production 배포·공개 출시는 단계 10 범위다.
 운영 DB를 준비하기 전에는 Vercel 프로젝트의 Ignored Build Step을 `Only build pre-production`으로 설정해 Production 빌드를 건너뛰고 Preview 빌드를 유지한다. 작업 브랜치에 추가한 `vercel.json`은 `main`의 Git 자동 배포만 끄며, `main`에 병합된 뒤 적용된다. 두 설정 모두 `main`의 새 커밋을 자동으로 Preview에 배포하지는 않는다. 새 `main` 커밋의 Preview가 필요하면 현재는 수동 배포한다. 운영 배포를 시작할 때 두 설정을 함께 재검토한다.
 저장소는 public이다. private 상태에서 GitHub Free의 보호 규칙 API가 HTTP 403을 반환해, 사용자 결정에 따라 public으로 전환했다.
 `main` 보호 규칙은 PR 필수(필수 승인자 0명), `validate` 상태 검사 통과 필수, 최신 main 기준 검사 필수로 설정됐다.
