@@ -1,0 +1,9 @@
+import { PageContainer } from "@/components/layout/PageContainer/PageContainer";
+
+export default function MyPage() {
+  return (
+    <PageContainer>
+      <h1>마이페이지</h1>
+    </PageContainer>
+  );
+}
