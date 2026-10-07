@@ -56,9 +56,9 @@ SwimFind는 사용자가 로그인하지 않아도 지역·수영장 이름·현
 | 서버 조회         | Pool Repository·Service, Drizzle 기반 조회 타입 구현                                                                                                                                                                                                                                                                                                                                                                              |
 | 오늘 상태         | 기본 상태 계산 테스트 14개 구현. 일정 미확인은 `UNVERIFIED`로 처리. 상세 ID 검증 테스트를 포함한 전체 테스트는 25개                                                                                                                                                                                                                                                                                                               |
 | 상세 페이지       | 실제 조회와 이름·주소·상태·회차·운영시간·일일/월 요금·공통 안내 표시. 양의 10진수 정수 ID만 허용하고 형식 오류·범위 초과·없는 ID는 404 처리                                                                                                                                                                                                                                                                                       |
-| 탐색              | 홈은 자리 표시 화면. 검색 결과 페이지와 검색 기능 미구현                                                                                                                                                                                                                                                                                                                                                                          |
+| 탐색              | 홈은 자리 표시 화면. `/pools` 등 MVP 경로는 제목만 있는 빈 페이지이며 검색 기능과 목록 조회는 미구현                                                                                                                                                                                                                                                                                                                                                                          |
 | 디자인            | Figma(`수영 서비스`)에 데스크톱 1280px 프레임 19개(홈·검색 결과·상세·로그인·제보·관심·마이페이지·후기 작성자 프로필)가 있음. 모바일 디자인과 운영자 검토·후기 작성·삭제 확인 화면은 없음. Figma 변수는 없음                                                                                                                                                                                                                       |
-| 골격·공용 UI·화면 | 경로 골격(`/`, `/pools/[poolId]` 외), 공통 레이아웃, 공용 UI(`components`), MVP mock 화면은 미구현                                                                                                                                                                                                                                                                                                                                |
+| 골격·공용 UI·화면 | 경로 골격(빈 페이지 9개)과 공통 레이아웃 골격(`Header`·`Footer`·`PageContainer`)은 PR #27로 `main` 병합. 화면용 타입(단계 2-B, Issue #26)·공용 UI(`components/ui`)·MVP mock 화면은 미구현                                                                                                                                                                                                                                                                                                                                |
 | 개인 기능         | 인증·관심 수영장·후기·정보 제보·마이페이지 미구현                                                                                                                                                                                                                                                                                                                                                                                 |
 | 배포·운영         | GitHub Actions `CI / validate`가 PR #21과 병합된 main에서 통과. 저장소를 공개로 전환하고 main에 PR·`validate` 필수 보호 및 Squash 전용 병합을 적용. 첫 main Production 빌드는 `DATABASE_URL` 미적용으로 실패. 이후 `main`의 `91836e3` 커밋을 수동 Preview로 배포해 Ready 상태와 실제 상세 조회를 확인. Production 빌드 건너뛰기·`main` 자동 배포 차단(`vercel.json`)은 `c595663`으로 `main`에 병합. 서비스 중인 Production은 없음 |
 | 단계 1 진행       | A~E 모두 완료. B의 수정은 PR #19, D의 CI는 PR #21, E의 Preview·main 보호 구성은 `c595663`으로 `main` 병합. C의 데이터 계약·mock 시나리오는 로컬 임시 문서에 정리 완료. Issue #18은 사용자가 환경변수 범위와 Preview를 확인한 뒤 닫음                                                                                                                                                                                              |
@@ -125,14 +125,14 @@ SwimFind는 사용자가 로그인하지 않아도 지역·수영장 이름·현
 
 무엇을·어떻게:
 
-- [ ] `architecture.md`의 경로(`/pools`, `/favorites`, `/reviews`, `/reviews/write`, `/reports`, `/login`, `/my`)와 운영자 경로 `/admin` 아래의 제보 검토 목록·상세 빈 페이지를 만든다. 기존 `/`, `/pools/[poolId]`는 유지한다.
-- [ ] `components/layout`에 헤더·내비게이션·Footer·페이지 컨테이너 골격을 만든다. Figma 헤더 기준: 로고·수영장 찾기·관심 수영장·마이페이지·로그인.
+- [x] `architecture.md`의 경로(`/pools`, `/favorites`, `/reviews`, `/reviews/write`, `/reports`, `/login`, `/my`)와 운영자 경로 `/admin` 아래의 제보 검토 목록·상세 빈 페이지를 만든다. 기존 `/`, `/pools/[poolId]`는 유지한다. (Issue #25, PR #27)
+- [x] `components/layout`에 헤더·내비게이션·Footer·페이지 컨테이너 골격을 만든다. Figma 헤더 기준: 로고·수영장 찾기·관심 수영장·마이페이지·로그인. 로고와 Footer는 메뉴의 "수영장 찾기"와 구분하려고 서비스 이름 `SwimFind`로 했다. (Issue #25, PR #27)
 - [ ] 화면용 view-model 타입을 `features/*/*.types.ts`에 정의한다. 대상은 수영장 목록 카드, 상세 보조 영역(이미지·시설·FAQ·강습·후기 요약), 후기, 제보, 관심이다. 기존 `PoolDetailResult`·Drizzle 기반 타입을 재사용하고, 아직 없는 도메인은 UI에 필요한 최소 타입만 정의한다.
 - [ ] `/pools` 검색 조건(이름·지역·필터) 타입을 정의한다. URL `searchParams`와의 변환은 단계 5에서 연결한다.
 - [ ] 로그인 전후 화면 확인용 mock 사용자 타입(비로그인·회원·운영자)을 정의한다. 실제 세션 모델은 단계 7에서 설계한다.
 - [ ] 여러 도메인이 공유하는 타입만 `shared/types`에 둔다. 컴포넌트 Props 타입은 해당 컴포넌트 파일에 함께 정의한다.
 - [ ] 위 타입은 UI 검토용 임시 타입이다. DB schema·API 응답·전역 상태를 미리 확정하지 않으며, 단계 5에서 실제 타입으로 교체한다.
-- [ ] `architecture.md`에 `components/layout`·`features/*/mocks`·`/admin` 경로를 추가하는 문서 갱신을 별도로 제안한다.
+- [x] `architecture.md`에 `components/layout`·`features/*/mocks`·`/admin` 경로를 추가하는 문서 갱신을 별도로 제안한다. (PR #24)
 
 완료 기준: 모든 MVP 경로가 열리고 공통 레이아웃으로 이동할 수 있으며, 화면용 타입이 정의되어 타입 검사·빌드를 통과한다. 기존 상세 조회·404 동작은 유지한다. 화면 내용은 포함하지 않는다.
 
@@ -363,9 +363,9 @@ TanStack Query는 추가 조회나 optimistic update가 필요한 시점에 적�
 ### 단계별 완료 기준
 
 단계 2 (골격)
-- [ ] 모든 MVP 경로(`/admin` 포함)가 열리고 공통 레이아웃으로 이동할 수 있다.
+- [x] 모든 MVP 경로(`/admin` 포함)가 열리고 공통 레이아웃으로 이동할 수 있다. (PR #27)
 - [ ] 화면용 타입이 정의되어 타입 검사·빌드를 통과한다.
-- [ ] 기존 상세 조회·404 동작이 유지된다.
+- [x] 기존 상세 조회·404 동작이 유지된다. (PR #27)
 
 단계 3 (공용 UI)
 - [ ] 기본 6종이 토큰만으로 스타일링되어 화면에 조합할 수 있다.
@@ -417,11 +417,11 @@ TanStack Query는 추가 조회나 optimistic update가 필요한 시점에 적�
 
 ## 11. 다음 단계
 
-1. 이번에 수정한 문서(`ROADMAP.md`, `github-ci.md`, `architecture.md`)를 커밋하고 PR로 병합한다. 커밋은 승인 후에 진행한다.
-2. 브라우저 확인 도구(Claude in Chrome 또는 Playwright MCP) 연결을 확인한다.
-3. **즉시 시작**: 단계 2 — 애플리케이션 골격. Issue를 작성한 뒤 경로 빈 페이지·`/admin`·`components/layout`·화면용 타입을 구현한다.
-4. 단계 3: Figma 기준 최소 토큰·Noto Sans KR·기본 6종 공용 UI.
-5. 단계 4: mock으로 전체 UI를 완성하고 필요 필드를 기록한 뒤, 단계 5에서 schema를 변경한다.
+1. **즉시 시작**: 단계 2-B — 화면용 타입 정의(Issue #26). 구현 계획을 작성하고 승인받은 뒤 진행한다. 이것이 끝나면 단계 2가 완료된다.
+2. 단계 3: Figma 기준 최소 토큰·Noto Sans KR·`lang="ko"`·기본 6종 공용 UI.
+3. 단계 4: mock으로 전체 UI를 완성하고 필요 필드를 기록한 뒤, 단계 5에서 schema를 변경한다.
+
+완료: 단계 1, 단계 2-A(경로·공통 레이아웃 골격, PR #27), 로드맵·구조 문서 정리(PR #24). 브라우저 확인 도구(Claude in Chrome, Playwright MCP) 연결을 확인했다.
 
 ## 12. MVP 이후 검토
 
