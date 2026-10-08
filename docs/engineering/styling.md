@@ -890,3 +890,34 @@ SwimFind 스타일링의 목표는
 
 JSX는 구조와 의미를 읽기 쉽게 유지하고,
 시각적인 규칙은 가능한 한 CSS에서 확인할 수 있게 한다.
+
+---
+
+## 27. Design Reference (Figma)
+
+디자인 기준 파일:
+
+```text
+https://www.figma.com/design/ox2YckkcvGtmMdlbwrcJ9I/수영-서비스
+```
+
+- 파일 키: `ox2YckkcvGtmMdlbwrcJ9I`
+- 페이지는 `Page 1` 하나이며 데스크톱(약 1280px) 프레임만 있다.
+  모바일 디자인은 없다.
+- Figma 변수(Variables)는 없다.
+  토큰 값은 프레임의 실제 색·글꼴·간격·radius 값을 읽어 `tokens.css`에 정리한다.
+- 전체 페이지 metadata는 크기가 매우 커서 사용하지 않는다.
+  필요한 프레임의 node ID로 `get_design_context`·`get_screenshot`를 호출한다.
+
+토큰 추출과 컴포넌트 확인에 사용하는 기준 프레임:
+
+| 프레임 | node ID |
+| --- | --- |
+| Home / Guest | `9:2580` |
+| Search Results / Default | `9:2942` |
+| Pool Detail / Schedule | `9:4544` |
+| Login / From Favorites | `9:4125` |
+| Report / Write | `9:6887` |
+
+Figma에 없는 화면(운영자 검토, 후기 작성·수정, 삭제 확인, 모바일 등)은
+`tokens.css`와 공용 UI를 기준으로 새로 설계하고 화면별로 승인받는다.
