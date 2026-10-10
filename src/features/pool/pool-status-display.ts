@@ -20,37 +20,37 @@ export const POOL_STATUS_DISPLAY = {
     label: "오늘 이용 가능",
     tone: "success",
     dot: true,
-    timeFallback: "이용 시간은 상세에서 확인해 주세요",
+    timeFallback: "이용 시간은 상세에서 확인",
   },
   ENDED: {
     label: "오늘 자유수영 종료",
     tone: "neutral",
     dot: false,
-    timeFallback: "오늘 이용 가능한 시간이 끝났어요",
+    timeFallback: "오늘 이용 가능 시간 종료",
   },
   CLOSED: {
     label: "오늘 이용 불가",
     tone: "danger",
     dot: true,
-    timeFallback: "오늘은 이용할 수 없어요",
+    timeFallback: "오늘은 이용할 수 없음",
   },
   NO_SCHEDULE: {
     label: "오늘 자유수영 일정 없음",
     tone: "neutral",
     dot: false,
-    timeFallback: "오늘은 자유수영 일정이 없어요",
+    timeFallback: "오늘은 자유수영 일정 없음",
   },
   NOT_OPERATED: {
     label: "자유수영 미운영",
     tone: "neutral",
     dot: false,
-    timeFallback: "자유수영을 운영하지 않아요",
+    timeFallback: "자유수영을 운영하지 않음",
   },
   UNVERIFIED: {
     label: "오늘 자유수영 정보 미확인",
     tone: "warning",
     dot: false,
-    timeFallback: "운영 시간 확인이 필요해요",
+    timeFallback: "운영 시간 확인 필요",
   },
 } satisfies Record<TodayFreeSwimmingStatus, PoolStatusDisplay>;
 
