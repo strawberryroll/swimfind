@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/Card/Card";
 import { ClockIcon } from "@/components/ui/icons/ClockIcon";
 import { MapPinIcon } from "@/components/ui/icons/MapPinIcon";
+import { WaveIcon } from "@/components/ui/icons/WaveIcon";
 
 import { FavoriteButton } from "../FavoriteButton/FavoriteButton";
 import { PoolStatusBadge } from "../PoolStatusBadge/PoolStatusBadge";
@@ -44,7 +45,7 @@ export function PoolCard({
   return (
     <Card className={clsx(styles.card, className)}>
       <div className={styles.imageArea}>
-        {pool.imageUrl && (
+        {pool.imageUrl ? (
           <>
             <Image
               src={pool.imageUrl}
@@ -56,6 +57,10 @@ export function PoolCard({
             />
             <div className={styles.imageOverlay} aria-hidden="true" />
           </>
+        ) : (
+          <div className={styles.imagePlaceholder} aria-hidden="true">
+            <WaveIcon className={styles.placeholderIcon} />
+          </div>
         )}
         <PoolStatusBadge status={pool.todayStatus} className={styles.badge} />
         <div className={styles.favorite}>

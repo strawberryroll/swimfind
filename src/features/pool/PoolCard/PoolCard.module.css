@@ -14,6 +14,20 @@
   object-fit: cover;
 }
 
+.imagePlaceholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.placeholderIcon {
+  opacity: 0.55;
+}
+
 .imageOverlay {
   position: absolute;
   inset: 0;
