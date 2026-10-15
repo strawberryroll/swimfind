@@ -1,0 +1,120 @@
+/* 검색 바 안의 Select·Input은 공용 UI의 테두리를 없애고 구분선으로 나눈다. */
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 720px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--color-background);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 25%);
+}
+
+.region,
+.query,
+.location {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.region {
+  gap: 10px;
+  padding: 0 var(--space-4);
+}
+
+.query {
+  flex: 1;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: 0 var(--space-4);
+}
+
+.location > * {
+  width: 100%;
+}
+
+/* 공용 Button(ghost)을 검색 바 칸 모양에 맞춘다. */
+.location button {
+  gap: 6px;
+  height: 100%;
+  min-height: 52px;
+  padding: 0 20px;
+  border-radius: 0;
+  color: var(--color-text-muted);
+}
+
+.location button:hover:not(:disabled) {
+  opacity: 1;
+  color: var(--color-text-secondary);
+}
+
+.location button:focus-visible {
+  outline: none;
+  background-color: var(--color-surface-muted);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-text-subtle);
+}
+
+.region select,
+.query input {
+  height: 52px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.region select {
+  width: 100%;
+  padding: 0 28px 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  background-position: right 0 center;
+}
+
+.query input {
+  padding: 0;
+}
+
+/* 포커스 표시는 안쪽 요소의 선 대신 칸 전체의 배경색으로 한다. */
+.region select:focus-visible,
+.query input:focus-visible {
+  outline: none;
+}
+
+.region:has(:focus-visible),
+.query:has(:focus-visible) {
+  background-color: var(--color-surface-muted);
+}
+
+.submit {
+  min-height: 52px;
+  padding: 0 var(--space-6);
+  border-radius: 0;
+}
+
+/* 파란 버튼은 배경색을 더 진하게 해서 포커스를 표시한다. */
+.form .submit:focus-visible {
+  outline: none;
+  background-color: color-mix(in srgb, var(--color-primary) 75%, black);
+}
+
+@media (min-width: 768px) {
+  .form {
+    flex-direction: row;
+  }
+
+  .region,
+  .location {
+    flex-shrink: 0;
+    border-right: 1px solid var(--color-border-subtle);
+    border-bottom: 0;
+  }
+
+  .query {
+    border-bottom: 0;
+  }
+}

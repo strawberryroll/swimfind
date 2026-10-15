@@ -1,5 +1,9 @@
-import styles from "./page.module.css";
+import { PoolSearchHero } from "@/features/pool-search/PoolSearchHero/PoolSearchHero";
 
 export default function Home() {
-  return <div className={styles.title}>Home</div>;
+  return (
+    <main>
+      <PoolSearchHero />
+    </main>
+  );
 }
