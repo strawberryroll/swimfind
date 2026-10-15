@@ -34,6 +34,26 @@
   width: 100%;
 }
 
+/* 공용 Button(ghost)을 검색 바 칸 모양에 맞춘다. */
+.location button {
+  gap: 6px;
+  height: 100%;
+  min-height: 52px;
+  padding: 0 20px;
+  border-radius: 0;
+  color: var(--color-text-muted);
+}
+
+.location button:hover:not(:disabled) {
+  opacity: 1;
+  color: var(--color-text-secondary);
+}
+
+.location button:focus-visible {
+  outline: none;
+  background-color: var(--color-surface-muted);
+}
+
 .icon {
   flex-shrink: 0;
   color: var(--color-text-subtle);
@@ -76,9 +96,10 @@
   border-radius: 0;
 }
 
-.submit:focus-visible {
-  outline-offset: -4px;
-  outline-color: var(--color-text-on-primary);
+/* 파란 버튼은 배경색을 더 진하게 해서 포커스를 표시한다. */
+.form .submit:focus-visible {
+  outline: none;
+  background-color: color-mix(in srgb, var(--color-primary) 75%, black);
 }
 
 @media (min-width: 768px) {
