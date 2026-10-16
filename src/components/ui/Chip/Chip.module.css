@@ -31,7 +31,7 @@
   color: var(--color-text-subtle);
 }
 
-.default:hover:not(:disabled) {
+.default:hover:not(:disabled, [aria-pressed="true"]) {
   color: var(--color-text-secondary);
 }
 
