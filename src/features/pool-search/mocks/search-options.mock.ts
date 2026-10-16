@@ -8,6 +8,10 @@ export const REGION_OPTIONS_MOCK = [
   { value: "인천", label: "인천" },
   { value: "부산", label: "부산" },
   { value: "대구", label: "대구" },
+  { value: "대전", label: "대전" },
+  { value: "광주", label: "광주" },
+  { value: "울산", label: "울산" },
+  { value: "세종", label: "세종" },
 ] as const;
 
 export const POPULAR_KEYWORDS_MOCK = [

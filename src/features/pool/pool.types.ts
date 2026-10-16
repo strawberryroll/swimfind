@@ -28,6 +28,8 @@ export type PoolCardData = {
   adultDailyPrice?: number | null;
   /** [필요 필드: schema] 지역 라벨(예: "인천 미추홀구"). 지금은 주소 문자열만 있다. */
   regionLabel?: string;
+  /** [필요 필드: schema] 지역 필터용 시·도 값(예: "인천"). DB에 지역 컬럼이 없고 목록도 확정되지 않았다. */
+  region?: string;
   /** [필요 필드: service] 현재 위치 기준 거리(km). 위치 권한이 필요하다. */
   distanceKm?: number;
   /** [필요 필드: service] 대표 이미지 URL. pool_images는 object key만 저장한다. */
