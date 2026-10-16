@@ -1,5 +1,6 @@
 // UI 검토용 예시 데이터다. 실제 수영장·일정·요금이 아니다.
 // 이름은 가상이고 id는 실제 수영장과 겹치지 않게 9001부터 쓴다. 단계 5에서 실제 조회로 교체한다.
+// 지역은 시·도 이름만 실제 이름이고 구·시 이름은 가상이다.
 // 이미지(public/mock)는 Figma 시안에서 가져온 임시 이미지다. 단계 10에서 mock과 함께 삭제한다.
 
 import type { PoolCardData } from "../pool.types";
@@ -13,7 +14,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     nextSession: { startTime: "14:00:00", endTime: "17:00:00" },
     entryCloseTime: "16:30:00",
     adultDailyPrice: 4000,
-    regionLabel: "예시시 가구",
+    regionLabel: "서울 가구",
+    region: "서울",
     distanceKm: 2.4,
     imageUrl: "/mock/pool-1.jpg",
   },
@@ -25,7 +27,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     nextSession: { startTime: "15:30:00", endTime: "17:30:00" },
     entryCloseTime: null,
     adultDailyPrice: 5000,
-    regionLabel: "예시시 나구",
+    regionLabel: "서울 나구",
+    region: "서울",
     distanceKm: 5.1,
     imageUrl: "/mock/pool-2.jpg",
   },
@@ -37,7 +40,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     nextSession: { startTime: "16:00:00", endTime: "18:00:00" },
     entryCloseTime: "17:30:00",
     adultDailyPrice: null,
-    regionLabel: "예시시 다구",
+    regionLabel: "경기 다시",
+    region: "경기",
     distanceKm: 12.3,
     isFavorite: true,
     imageUrl: "/mock/pool-3.jpg",
@@ -49,7 +53,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     todayStatus: "ENDED",
     nextSession: null,
     adultDailyPrice: 3500,
-    regionLabel: "예시시 가구",
+    regionLabel: "서울 가구",
+    region: "서울",
     distanceKm: 3.9,
     imageUrl: "/mock/pool-1.jpg",
   },
@@ -60,7 +65,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     todayStatus: "CLOSED",
     nextSession: null,
     adultDailyPrice: 4000,
-    regionLabel: "예시시 라구",
+    regionLabel: "인천 라구",
+    region: "인천",
     distanceKm: 8.7,
     imageUrl: "/mock/pool-2.jpg",
   },
@@ -69,7 +75,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     id: 9006,
     name: "예시 수영장 F",
     todayStatus: "UNVERIFIED",
-    regionLabel: "예시시 마구",
+    regionLabel: "경기 마시",
+    region: "경기",
     distanceKm: 6.2,
   },
   // 오늘 자유수영 일정 없음
@@ -79,7 +86,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     todayStatus: "NO_SCHEDULE",
     nextSession: null,
     adultDailyPrice: 4500,
-    regionLabel: "예시시 나구",
+    regionLabel: "인천 나구",
+    region: "인천",
     distanceKm: 9.8,
     imageUrl: "/mock/pool-3.jpg",
   },
@@ -90,7 +98,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     todayStatus: "NOT_OPERATED",
     nextSession: null,
     adultDailyPrice: null,
-    regionLabel: "예시시 바구",
+    regionLabel: "부산 바구",
+    region: "부산",
     distanceKm: 15,
   },
   // 위치 권한이 없어 거리가 없고, 요금이 0원으로 기록된 사례
@@ -101,7 +110,8 @@ export const POOL_CARD_MOCKS: PoolCardData[] = [
     nextSession: { startTime: "17:00:00", endTime: "19:00:00" },
     entryCloseTime: "18:30:00",
     adultDailyPrice: 0,
-    regionLabel: "예시시 사구",
+    regionLabel: "대구 사구",
+    region: "대구",
     imageUrl: "/mock/pool-1.jpg",
   },
 ];
